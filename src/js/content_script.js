@@ -71,11 +71,9 @@ function handleText(textNode) {
             rule.flags = 'g';
         }
         if (regexUrl(rule.urlString, url)) {
-            console.log(rule.searchString)
             regex = new RegExp(rule.searchString, rule.flags);
             if (v.match(regex)) {
                 v = v.replace(regex, rule.replaceString);
-                console.log("replaced")
             }
             textNode.nodeValue = v;
         }
