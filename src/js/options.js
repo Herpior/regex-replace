@@ -84,15 +84,16 @@ function listRules() {
                     <td><code>${htmlEncode(rule.searchString)}</code></td>
                     <td><code>${htmlEncode(rule.replaceString)}</code></td>
                     <td><code>${htmlEncode(rule.flags)}</code></td>
+                    <td><code>${htmlEncode(rule.urlString)}</code></td>
                     <td>
                         ${moveUp}
                         ${moveDown}
                         <a href="#" class="delete-button" data-index="${i}" id="del-${rule.key}">
                             <i class="glyphicon glyphicon-trash"></i></a>
-                        <a 
-                            href="#" 
-                            class="edit-rule" 
-                            data-index="${i}" 
+                        <a
+                            href="#"
+                            class="edit-rule"
+                            data-index="${i}"
                             data-key="edit-${rule.key}"
                         ><i class="glyphicon glyphicon-pencil"></i></a>
                     </td>
@@ -120,6 +121,7 @@ function listRules() {
 
             $('#search').val(rule.searchString);
             $('#replace').val(rule.replaceString);
+            $('#url_regex').val(rule.urlString);
             $flags.val(rule.flags.split(''));
             $flags.multiselect('refresh');
             $('#key').val(rule.key);
@@ -167,7 +169,7 @@ $('#regexStatus').on('switchChange.bootstrapSwitch', function(event, state) {
 //handle rule addition
 $('#rule-form').submit(function(e) {
     e.preventDefault();
-    
+
     let action = $('#form-action').val();
     let key = parseInt($('#key').val());
     if (!key) {
@@ -177,6 +179,7 @@ $('#rule-form').submit(function(e) {
         key,
         searchString: $('#search').val(),
         replaceString: $('#replace').val(),
+        urlString: $('#url_regex').val(),
         flags: $('#flags')
             .val()
             .join('')
@@ -206,6 +209,7 @@ function reset() {
     $('#replace').val('');
     $flags.val(['g']);
     $flags.multiselect('refresh');
+    $('#url_regex').val('');
     $('#key').val('');
     $('#form-action').val('add');
     $('.form-new').removeClass('hidden');

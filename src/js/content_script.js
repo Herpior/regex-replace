@@ -50,9 +50,18 @@ function walk(node) {
     }
 }
 
+function regexUrl(regexString, url){
+  if (regexString == undefined || regexString == ""){
+    return true
+  }
+  var regex = new RegExp(regexString, "g");
+  return url.match(regex)
+}
+
 function handleText(textNode) {
     var v = textNode.nodeValue;
     var regex;
+    var url = location.href;
 
     for (var i = 0; i < ruleSet.length; i++) {
         var rule = ruleSet[i];
@@ -61,11 +70,14 @@ function handleText(textNode) {
         if (rule.flags == undefined) {
             rule.flags = 'g';
         }
-
-        regex = new RegExp(rule.searchString, rule.flags);
-        if (v.match(regex)) {
-            v = v.replace(regex, rule.replaceString);
+        if (regexUrl(rule.urlString, url)) {
+            console.log(rule.searchString)
+            regex = new RegExp(rule.searchString, rule.flags);
+            if (v.match(regex)) {
+                v = v.replace(regex, rule.replaceString);
+                console.log("replaced")
+            }
+            textNode.nodeValue = v;
         }
-        textNode.nodeValue = v;
     }
 }
